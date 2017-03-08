@@ -2,7 +2,9 @@
 
 Allows you to process logs using any PSR-3 compatible logger such as [Monolog](https://github.com/Seldaek/monolog).
 
-<img src="https://travis-ci.org/samdark/yii2-psr-log-target.svg" />
+<a href="https://travis-ci.org/samdark/yii2-psr-log-target">
+    <img src="https://travis-ci.org/samdark/yii2-psr-log-target.svg" />
+</a>
 
 ## Installation
 
