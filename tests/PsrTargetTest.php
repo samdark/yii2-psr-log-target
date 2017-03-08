@@ -41,20 +41,31 @@ class PsrTargetTest extends \PHPUnit_Framework_TestCase
                 'message' => 'profile',
                 'context' => $context,
             ]],
-            ['profile_begin', Logger::LEVEL_PROFILE_BEGIN, null],
-            ['profile_end', Logger::LEVEL_PROFILE_END, null],
+            ['profile_begin', Logger::LEVEL_PROFILE_BEGIN, [
+                'level' => LogLevel::DEBUG,
+                'message' => 'profile_begin',
+                'context' => $context,
+            ]],
+            ['profile_end', Logger::LEVEL_PROFILE_END, [
+                'level' => LogLevel::DEBUG,
+                'message' => 'profile_end',
+                'context' => $context,
+            ]],
         ];
     }
 
     /**
      * @dataProvider testLogDataProvider
+     * @param string $message
+     * @param int $level
+     * @param mixed $expected
      */
     public function testLog($message, $level, $expected)
     {
         $psrLogger = new PsrArrayLogger();
 
         $logger = new Logger();
-        $dispatcher = new Dispatcher([
+        new Dispatcher([
             'logger' => $logger,
             'targets' => [
                 'psr' => [
