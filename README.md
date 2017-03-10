@@ -20,7 +20,7 @@ In order to use `PsrTarget` you should configure your `log` application componen
 // $psrLogger should be an instance of PSR-3 compatible logger.
 // As an example, we'll use Monolog to send log to Slack.
 $psrLogger = new \Monolog\Logger('my_logger');
-$psrLogger->pushHandler(new \Monolog\Handler\SlackHandler('slack_token', 'logs', null, true, null, \Monolog\Logger::DEBUG);
+$psrLogger->pushHandler(new \Monolog\Handler\SlackHandler('slack_token', 'logs', null, true, null, \Monolog\Logger::DEBUG));
 
 return [
     // ...
