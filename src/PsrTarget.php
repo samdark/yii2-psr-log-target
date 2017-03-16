@@ -46,13 +46,20 @@ class PsrTarget extends Target implements LoggerAwareInterface
     public function export()
     {
         foreach ($this->messages as $message) {
-            $this->getLogger()->log($this->_psrLevels[$message[1]],
-                $message[0],
-            [
-                'category' => $message[2],
-                'memory' => $message[5],
-                'trace' => $message[4],
-            ]);
+            $context = [];
+            if (isset($message[4])) {
+                $context['trace'] = $message[4];
+            }
+
+            if (isset($message[5])) {
+                $context['memory'] = $message[5];
+            }
+
+            if (isset($message[2])) {
+                $context['category'] = $message[2];
+            }
+
+            $this->getLogger()->log($this->_psrLevels[$message[1]], $message[0], $context);
         }
     }
 }
