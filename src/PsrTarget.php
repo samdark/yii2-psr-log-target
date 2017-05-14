@@ -6,6 +6,7 @@ use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use yii\base\InvalidConfigException;
+use yii\helpers\VarDumper;
 use yii\log\Logger;
 use yii\log\Target;
 
@@ -59,7 +60,18 @@ class PsrTarget extends Target implements LoggerAwareInterface
                 $context['category'] = $message[2];
             }
 
-            $this->getLogger()->log($this->_psrLevels[$message[1]], $message[0], $context);
+            $text = $message[0];
+
+            if (!is_string($text)) {
+                // exceptions may not be serializable if in the call stack somewhere is a Closure
+                if ($text instanceof \Throwable || $text instanceof \Exception) {
+                    $text = (string)$text;
+                } else {
+                    $text = VarDumper::export($text);
+                }
+            }
+
+            $this->getLogger()->log($this->_psrLevels[$message[1]], $text, $context);
         }
     }
 }
