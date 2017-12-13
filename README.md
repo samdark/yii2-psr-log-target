@@ -1,5 +1,3 @@
-It is a fork from samdark/yii2-psr-log-target with psr logger levels support.
-
 # Yii 2 PSR Log Target
 
 Allows you to process logs using any PSR-3 compatible logger such as [Monolog](https://github.com/Seldaek/monolog).
