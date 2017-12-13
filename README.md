@@ -1,11 +1,9 @@
-It is a fork from samdark/yii2-psr-log-target with psr logger levels support.
-
 # Yii 2 PSR Log Target
 
 Allows you to process logs using any PSR-3 compatible logger such as [Monolog](https://github.com/Seldaek/monolog).
 
-<a href="https://travis-ci.org/ilyaplot/yii2-psr-log-target">
-    <img src="https://travis-ci.org/ilyaplot/yii2-psr-log-target.svg" />
+<a href="https://travis-ci.org/samdark/yii2-psr-log-target">
+    <img src="https://travis-ci.org/samdark/yii2-psr-log-target.svg" />
 </a>
 
 ## Installation
@@ -49,7 +47,7 @@ Yii::info('Info message);
 Yii::error('Error message');
 ```
 
-Usage with psr logger levels:
+Usage with PSR logger levels:
 ```
 Yii::getLogger()->log('Critical message', Psr\Log\LogLevel::CRITICAL);
 Yii::getLogger()->log('Alert message', Psr\Log\LogLevel::ALERT);
