@@ -41,6 +41,20 @@ return [
 ];
 ```
 
+Standard usage:
+
+```php
+Yii::info('Info message);
+Yii::error('Error message');
+```
+
+Usage with PSR logger levels:
+
+```php
+Yii::getLogger()->log('Critical message', Psr\Log\LogLevel::CRITICAL);
+Yii::getLogger()->log('Alert message', Psr\Log\LogLevel::ALERT);
+```
+
 ## Running tests
 
 In order to run tests perform the following commands:

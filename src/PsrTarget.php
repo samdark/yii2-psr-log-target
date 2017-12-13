@@ -27,6 +27,16 @@ class PsrTarget extends Target implements LoggerAwareInterface
         Logger::LEVEL_PROFILE => LogLevel::DEBUG,
         Logger::LEVEL_PROFILE_BEGIN => LogLevel::DEBUG,
         Logger::LEVEL_PROFILE_END => LogLevel::DEBUG,
+
+        // Psr Levels
+        LogLevel::EMERGENCY => LogLevel::EMERGENCY,
+        LogLevel::ALERT => LogLevel::ALERT,
+        LogLevel::CRITICAL => LogLevel::CRITICAL,
+        LogLevel::ERROR => LogLevel::ERROR,
+        LogLevel::WARNING => LogLevel::WARNING,
+        LogLevel::NOTICE => LogLevel::NOTICE,
+        LogLevel::INFO => LogLevel::INFO,
+        LogLevel::DEBUG => LogLevel::DEBUG,
     ];
 
     /**
