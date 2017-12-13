@@ -9,7 +9,7 @@ Allows you to process logs using any PSR-3 compatible logger such as [Monolog](h
 ## Installation
 
 ```
-composer require "samdark/yii2-psr-log-target"
+composer require "ilyaplot/yii2-psr-log-target"
 ```
 
 ## Usage
