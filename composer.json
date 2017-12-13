@@ -13,6 +13,10 @@
 		{
 			"name": "Alexander Makarov",
 			"email": "sam@rmcreative.ru"
+		},
+		{
+			"name": "Ilya Plotnikov",
+			"email": "ilyaplot@gmail.com",
 		}
 	],
 	"require": {
