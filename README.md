@@ -2,14 +2,14 @@
 
 Allows you to process logs using any PSR-3 compatible logger such as [Monolog](https://github.com/Seldaek/monolog).
 
-<a href="https://travis-ci.org/samdark/yii2-psr-log-target">
-    <img src="https://travis-ci.org/samdark/yii2-psr-log-target.svg" />
+<a href="https://travis-ci.org/ilyaplot/yii2-psr-log-target">
+    <img src="https://travis-ci.org/ilyaplot/yii2-psr-log-target.svg" />
 </a>
 
 ## Installation
 
 ```
-composer require "samdark/yii2-psr-log-target"
+composer require "ilyaplot/yii2-psr-log-target"
 ```
 
 ## Usage
@@ -39,6 +39,18 @@ return [
         ],
     ],
 ];
+```
+
+Standard usage:
+```
+Yii::info('Info message);
+Yii::error('Error message');
+```
+
+Usage with PSR logger levels:
+```
+Yii::getLogger()->log('Critical message', Psr\Log\LogLevel::CRITICAL);
+Yii::getLogger()->log('Alert message', Psr\Log\LogLevel::ALERT);
 ```
 
 ## Running tests

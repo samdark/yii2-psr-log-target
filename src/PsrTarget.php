@@ -19,7 +19,7 @@ class PsrTarget extends Target implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    private $_psrLevels = [
+    protected $_psrLevels = [
         Logger::LEVEL_ERROR => LogLevel::ERROR,
         Logger::LEVEL_WARNING => LogLevel::WARNING,
         Logger::LEVEL_INFO => LogLevel::INFO,
@@ -28,6 +28,7 @@ class PsrTarget extends Target implements LoggerAwareInterface
         Logger::LEVEL_PROFILE_BEGIN => LogLevel::DEBUG,
         Logger::LEVEL_PROFILE_END => LogLevel::DEBUG,
     ];
+
 
     /**
      * @return LoggerInterface
@@ -71,7 +72,7 @@ class PsrTarget extends Target implements LoggerAwareInterface
                 }
             }
 
-            $this->getLogger()->log($this->_psrLevels[$message[1]], $text, $context);
+            $this->getLogger()->log(isset($this->_psrLevels[$message[1]]) ? $this->_psrLevels[$message[1]] : $message[1], $text, $context);
         }
     }
 }

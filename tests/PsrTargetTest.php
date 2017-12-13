@@ -51,6 +51,47 @@ class PsrTargetTest extends \PHPUnit_Framework_TestCase
                 'message' => 'profile_end',
                 'context' => $context,
             ]],
+            // PsrLevels
+            ['emergency', LogLevel::EMERGENCY, [
+                'level' => LogLevel::EMERGENCY,
+                'message' => 'emergency',
+                'context' => $context,
+            ]],
+            ['alert', LogLevel::ALERT, [
+                'level' => LogLevel::ALERT,
+                'message' => 'alert',
+                'context' => $context,
+            ]],
+            ['critical', LogLevel::CRITICAL, [
+                'level' => LogLevel::CRITICAL,
+                'message' => 'critical',
+                'context' => $context,
+            ]],
+            ['error', LogLevel::ERROR, [
+                'level' => LogLevel::ERROR,
+                'message' => 'error',
+                'context' => $context,
+            ]],
+            ['warning', LogLevel::WARNING, [
+                'level' => LogLevel::WARNING,
+                'message' => 'warning',
+                'context' => $context,
+            ]],
+            ['notice', LogLevel::NOTICE, [
+                'level' => LogLevel::NOTICE,
+                'message' => 'notice',
+                'context' => $context,
+            ]],
+            ['info', LogLevel::INFO, [
+                'level' => LogLevel::INFO,
+                'message' => 'info',
+                'context' => $context,
+            ]],
+            ['debug', LogLevel::DEBUG, [
+                'level' => LogLevel::DEBUG,
+                'message' => 'debug',
+                'context' => $context,
+            ]],
         ];
     }
 
