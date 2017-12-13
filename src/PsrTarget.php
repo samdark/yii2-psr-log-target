@@ -72,7 +72,7 @@ class PsrTarget extends Target implements LoggerAwareInterface
                 }
             }
 
-            $this->getLogger()->log($this->_psrLevels[$message[1]] ?? $message[1], $text, $context);
+            $this->getLogger()->log(isset($this->_psrLevels[$message[1]]) ? $this->_psrLevels[$message[1]] : $message[1], $text, $context);
         }
     }
 }
