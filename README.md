@@ -47,7 +47,7 @@ Yii::info('Info message);
 Yii::error('Error message');
 ```
 
-Usage with psr logger levels:
+Usage with PSR logger levels:
 ```
 Yii::getLogger()->log('Critical message', Psr\Log\LogLevel::CRITICAL);
 Yii::getLogger()->log('Alert message', Psr\Log\LogLevel::ALERT);
