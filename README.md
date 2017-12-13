@@ -44,7 +44,7 @@ return [
 Standard usage:
 
 ```php
-Yii::info('Info message);
+Yii::info('Info message');
 Yii::error('Error message');
 ```
 
