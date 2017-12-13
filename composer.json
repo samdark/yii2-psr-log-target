@@ -1,13 +1,13 @@
 {
-	"name": "samdark/yii2-psr-log-target",
+	"name": "ilyaplot/yii2-psr-log-target",
 	"description": "Yii 2 log target which uses PSR-3 compatible logger",
 	"keywords": ["yii", "extension", "log", "psr-3"],
-	"homepage": "https://github.com/samdark/yii2-psr-log-target",
+	"homepage": "https://github.com/ilyaplot/yii2-psr-log-target",
 	"type": "yii2-extension",
 	"license": "BSD-3-Clause",
 	"support": {
-		"issues": "https://github.com/samdark/yii2-psr-log-target/issues",
-		"source": "https://github.com/samdark/yii2-psr-log-target"
+		"issues": "https://github.com/ilyaplot/yii2-psr-log-target/issues",
+		"source": "https://github.com/ilyaplot/yii2-psr-log-target"
 	},
 	"authors": [
 		{
@@ -16,7 +16,7 @@
 		}
 	],
 	"require": {
-		"yiisoft/yii2": "~2.0.0",
+		"yiisoft/yii2": "~2.0.13",
         "psr/log": "~1.0.2"
 	},
 	"require-dev": {
