@@ -1,4 +1,4 @@
-Is is a fork from samdark/yii2-psr-log-target with psr logger levels support.
+It is a fork from samdark/yii2-psr-log-target with psr logger levels support.
 
 # Yii 2 PSR Log Target
 
