@@ -140,7 +140,7 @@ class PsrTarget extends Target implements LoggerAwareInterface
             $this->_interestedLevels = [];
 
             foreach ($levels as $level) {
-                if (!isset($this->_psrLevels[$level])) {
+                if (!isset($this->_psrLevels[$level]) && !isset(isset($levelMap[$level])) {
                     throw new InvalidConfigException("Unrecognized level: $level");
                 }
 
@@ -148,7 +148,9 @@ class PsrTarget extends Target implements LoggerAwareInterface
                     $this->_interestedLevels[$levelMap[$level]] = $this->_psrLevels[$levelMap[$level]];
                 }
 
-                $this->_interestedLevels[$level] = $this->_psrLevels[$level];
+                if (isset($this->_psrLevels[$level]) {
+                    $this->_interestedLevels[$level] = $this->_psrLevels[$level];
+                }
             }
         } else {
             throw new InvalidConfigException("Incorrect $levels value");
