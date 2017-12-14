@@ -19,7 +19,10 @@ class PsrTarget extends Target implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    private $_psrLevels = [
+    /**
+     * @var array
+     */
+    private $_levels = [
         Logger::LEVEL_ERROR => LogLevel::ERROR,
         Logger::LEVEL_WARNING => LogLevel::WARNING,
         Logger::LEVEL_INFO => LogLevel::INFO,
@@ -38,20 +41,6 @@ class PsrTarget extends Target implements LoggerAwareInterface
         LogLevel::INFO => LogLevel::INFO,
         LogLevel::DEBUG => LogLevel::DEBUG,
     ];
-
-    /**
-     * @var array
-     */
-    private $_levels = [];
-
-    /**
-     * @inheritdoc
-     */
-    public function init()
-    {
-        parent::init();
-        $this->_levels = $this->_psrLevels;
-    }
 
     /**
      * @return LoggerInterface
@@ -135,21 +124,23 @@ class PsrTarget extends Target implements LoggerAwareInterface
         ];
 
         if (is_array($levels)) {
-            $this->_levels = [];
-
+            $intrestingLevels = [];
+            
             foreach ($levels as $level) {
-                if (!isset($this->_psrLevels[$level]) && !isset($levelMap[$level])) {
+                if (!isset($this->_levels[$level]) && !isset($levelMap[$level])) {
                     throw new InvalidConfigException("Unrecognized level: $level");
                 }
 
                 if (isset($levelMap[$level])) {
-                    $this->_levels[$levelMap[$level]] = $this->_psrLevels[$levelMap[$level]];
+                    $intrestingLevels[$levelMap[$level]] = $this->_levels[$levelMap[$level]];
                 }
 
-                if (isset($this->_psrLevels[$level])) {
-                    $this->_levels[$level] = $this->_psrLevels[$level];
+                if (isset($this->_levels[$level])) {
+                    $intrestingLevels[$level] = $this->_levels[$level];
                 }
             }
+            
+            $this->_levels = $intrestingLevels;
         } else {
             throw new InvalidConfigException("Incorrect $levels value");
         }
