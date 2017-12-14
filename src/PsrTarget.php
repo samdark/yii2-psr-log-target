@@ -42,7 +42,7 @@ class PsrTarget extends Target implements LoggerAwareInterface
     /**
      * @var array
      */
-    private $_interestedLevels = null;
+    private $_levels = [];
 
     /**
      * @inheritdoc
@@ -50,9 +50,7 @@ class PsrTarget extends Target implements LoggerAwareInterface
     public function init()
     {
         parent::init();
-        if (is_null($this->_interestedLevels)) {
-            $this->_interestedLevels = $this->_psrLevels;
-        }
+        $this->_levels = $this->_psrLevels;
     }
 
     /**
@@ -74,7 +72,7 @@ class PsrTarget extends Target implements LoggerAwareInterface
     {
         foreach ($this->messages as $message) {
             $level = $message[1];
-            if (!isset($this->_interestedLevels[$level])) {
+            if (!isset($this->_levels[$level])) {
                 continue;
             }
 
@@ -101,7 +99,7 @@ class PsrTarget extends Target implements LoggerAwareInterface
                 }
             }
 
-            $this->getLogger()->log($this->_interestedLevels[$level], $text, $context);
+            $this->getLogger()->log($this->_levels[$level], $text, $context);
         }
     }
 
@@ -137,7 +135,7 @@ class PsrTarget extends Target implements LoggerAwareInterface
         ];
 
         if (is_array($levels)) {
-            $this->_interestedLevels = [];
+            $this->_levels = [];
 
             foreach ($levels as $level) {
                 if (!isset($this->_psrLevels[$level]) && !isset($levelMap[$level])) {
@@ -145,11 +143,11 @@ class PsrTarget extends Target implements LoggerAwareInterface
                 }
 
                 if (isset($levelMap[$level])) {
-                    $this->_interestedLevels[$levelMap[$level]] = $this->_psrLevels[$levelMap[$level]];
+                    $this->_levels[$levelMap[$level]] = $this->_psrLevels[$levelMap[$level]];
                 }
 
                 if (isset($this->_psrLevels[$level])) {
-                    $this->_interestedLevels[$level] = $this->_psrLevels[$level];
+                    $this->_levels[$level] = $this->_psrLevels[$level];
                 }
             }
         } else {
