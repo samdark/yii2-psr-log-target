@@ -287,13 +287,13 @@ class PsrTargetLevelsTest extends \PHPUnit_Framework_TestCase
 
     public function testIncorrectLevelsTypeFilter()
     {
-        $this->setExpectedException(InvalidConfigException::class);
+        $this->setExpectedException('yii\base\InvalidConfigException');
         new PsrTarget(['levels' => 'string']);
     }
 
     public function testIncorrectLevelsFilter()
     {
-        $this->setExpectedException(InvalidConfigException::class);
+        $this->setExpectedException('yii\base\InvalidConfigException');
         new PsrTarget(['levels' => ['not existing level']]);
     }
 }
