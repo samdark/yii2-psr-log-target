@@ -19,7 +19,10 @@ class PsrTarget extends Target implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    private $_psrLevels = [
+    /**
+     * @var array
+     */
+    private $_levels = [
         Logger::LEVEL_ERROR => LogLevel::ERROR,
         Logger::LEVEL_WARNING => LogLevel::WARNING,
         Logger::LEVEL_INFO => LogLevel::INFO,
@@ -57,6 +60,11 @@ class PsrTarget extends Target implements LoggerAwareInterface
     public function export()
     {
         foreach ($this->messages as $message) {
+            $level = $message[1];
+            if (!isset($this->_levels[$level])) {
+                continue;
+            }
+
             $context = [];
             if (isset($message[4])) {
                 $context['trace'] = $message[4];
@@ -71,7 +79,6 @@ class PsrTarget extends Target implements LoggerAwareInterface
             }
 
             $text = $message[0];
-
             if (!is_string($text)) {
                 // exceptions may not be serializable if in the call stack somewhere is a Closure
                 if ($text instanceof \Throwable || $text instanceof \Exception) {
@@ -81,7 +88,61 @@ class PsrTarget extends Target implements LoggerAwareInterface
                 }
             }
 
-            $this->getLogger()->log($this->_psrLevels[$message[1]], $text, $context);
+            $this->getLogger()->log($this->_levels[$level], $text, $context);
+        }
+    }
+
+    /**
+     * Sets the message levels that this target is interested in.
+     *
+     * The parameter can be an array.
+     * Valid level names include: 'error',
+     * 'warning', 'info', 'trace' and 'profile'; valid level values include:
+     * [[Logger::LEVEL_ERROR]], [[Logger::LEVEL_WARNING]], [[Logger::LEVEL_INFO]],
+     * [[Logger::LEVEL_TRACE]], [[Logger::LEVEL_PROFILE]] and Psr Log levels:
+     * [[LogLevel::EMERGENCY]], [[LogLevel::ALERT]], [[LogLevel::CRITICAL]],
+     * [[LogLevel::ERROR]], [[LogLevel::WARNING]], [[LogLevel::NOTICE]],
+     * [[LogLevel::INFO]] and [[LogLevel::DEBUG]].
+     *
+     * For example,
+     *
+     * ```php
+     * ['error', 'warning', LogLevel::CRITICAL, LogLevel::EMERGENCY]
+     * ```
+     *
+     * @param array $levels message levels that this target is interested in.
+     * @throws InvalidConfigException if $levels value is not correct.
+     */
+    public function setLevels($levels)
+    {
+        static $levelMap = [
+            'error' => Logger::LEVEL_ERROR,
+            'warning' => Logger::LEVEL_WARNING,
+            'info' => Logger::LEVEL_INFO,
+            'trace' => Logger::LEVEL_TRACE,
+            'profile' => Logger::LEVEL_PROFILE,
+        ];
+
+        if (is_array($levels)) {
+            $intrestingLevels = [];
+            
+            foreach ($levels as $level) {
+                if (!isset($this->_levels[$level]) && !isset($levelMap[$level])) {
+                    throw new InvalidConfigException("Unrecognized level: $level");
+                }
+
+                if (isset($levelMap[$level])) {
+                    $intrestingLevels[$levelMap[$level]] = $this->_levels[$levelMap[$level]];
+                }
+
+                if (isset($this->_levels[$level])) {
+                    $intrestingLevels[$level] = $this->_levels[$level];
+                }
+            }
+            
+            $this->_levels = $intrestingLevels;
+        } else {
+            throw new InvalidConfigException("Incorrect $levels value");
         }
     }
 }

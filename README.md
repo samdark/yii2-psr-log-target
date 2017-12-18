@@ -33,6 +33,10 @@ return [
                 [
                     'class' => 'samdark\log\PsrTarget',
                     'logger' => $psrLogger,
+                    
+                    // It is optional parameter. The message levels that this target is interested in.
+                    // The parameter can be an array.
+                    'levels' => ['info', yii\log\Logger::LEVEL_WARNING, Psr\Log\LogLevel::CRITICAL],
                 ],
                 // ...
             ],
