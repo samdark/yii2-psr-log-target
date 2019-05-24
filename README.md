@@ -37,9 +37,9 @@ return [
                     // It is optional parameter. The message levels that this target is interested in.
                     // The parameter can be an array.
                     'levels' => ['info', yii\log\Logger::LEVEL_WARNING, Psr\Log\LogLevel::CRITICAL],
-					// It is optional parameter. Default value is false. If you use Yii log buffering, you see buffer write time, and not real timestamp.
-					// If you want write real time to logs, you can set addTimestampToContext as true and use timestamp from log event context.
-					'addTimestampToContext' => true,
+                    // It is optional parameter. Default value is false. If you use Yii log buffering, you see buffer write time, and not real timestamp.
+                    // If you want write real time to logs, you can set addTimestampToContext as true and use timestamp from log event context.
+                    'addTimestampToContext' => true,
                 ],
                 // ...
             ],
