@@ -20,6 +20,11 @@ class PsrTarget extends Target implements LoggerAwareInterface
     use LoggerAwareTrait;
 
     /**
+     * @var bool If enabled, logger use original timestamp from buffer
+     */
+    public $addTimestampToContext = false;
+
+    /**
      * @var array
      */
     private $_levels = [
@@ -76,6 +81,10 @@ class PsrTarget extends Target implements LoggerAwareInterface
 
             if (isset($message[2])) {
                 $context['category'] = $message[2];
+            }
+
+            if ($this->addTimestampToContext && isset($message[3])) {
+                $context['timestamp'] = $message[3];
             }
 
             $text = $message[0];
