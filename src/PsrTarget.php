@@ -21,6 +21,7 @@ class PsrTarget extends Target implements LoggerAwareInterface
 
     /**
      * @var bool If enabled, logger use original timestamp from buffer
+     * @since 1.1.0
      */
     public $addTimestampToContext = false;
 
