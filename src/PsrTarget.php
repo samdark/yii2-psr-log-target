@@ -19,16 +19,7 @@ class PsrTarget extends Target implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    /**
-     * @var bool If enabled, logger use original timestamp from buffer
-     * @since 1.1.0
-     */
-    public $addTimestampToContext = false;
-
-    /**
-     * @var array
-     */
-    private $_levels = [
+    const LEVELS = [
         Logger::LEVEL_ERROR => LogLevel::ERROR,
         Logger::LEVEL_WARNING => LogLevel::WARNING,
         Logger::LEVEL_INFO => LogLevel::INFO,
@@ -49,6 +40,17 @@ class PsrTarget extends Target implements LoggerAwareInterface
     ];
 
     /**
+     * @var bool If enabled, logger use original timestamp from buffer
+     * @since 1.1.0
+     */
+    public $addTimestampToContext = false;
+
+    /**
+     * @var array
+     */
+    private $_levels = self::LEVELS;
+
+    /**
      * @return LoggerInterface
      * @throws InvalidConfigException
      */
@@ -67,9 +69,6 @@ class PsrTarget extends Target implements LoggerAwareInterface
     {
         foreach ($this->messages as $message) {
             $level = $message[1];
-            if (!isset($this->_levels[$level])) {
-                continue;
-            }
 
             $context = [];
             if (isset($message[4])) {
@@ -99,8 +98,21 @@ class PsrTarget extends Target implements LoggerAwareInterface
                 }
             }
 
-            $this->getLogger()->log($this->_levels[$level], $text, $context);
+            $this->getLogger()->log(self::LEVELS[$level], $text, $context);
         }
+    }
+
+    public static function filterMessages($messages, $levels = [], $categories = [], $except = [])
+    {
+        $filterByLevel = function ($message) use ($levels) {
+            return isset($levels[$message[1]]);
+        };
+        return array_filter(parent::filterMessages($messages, 0, $categories, $except), $filterByLevel);
+    }
+
+    public function getLevels()
+    {
+        return $this->_levels;
     }
 
     /**
