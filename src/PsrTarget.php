@@ -19,7 +19,13 @@ class PsrTarget extends Target implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    const LEVELS = [
+    /**
+     * @var bool If enabled, logger use original timestamp from buffer
+     * @since 1.1.0
+     */
+    public $addTimestampToContext = false;
+
+    private $_levelMap = [
         Logger::LEVEL_ERROR => LogLevel::ERROR,
         Logger::LEVEL_WARNING => LogLevel::WARNING,
         Logger::LEVEL_INFO => LogLevel::INFO,
@@ -40,15 +46,15 @@ class PsrTarget extends Target implements LoggerAwareInterface
     ];
 
     /**
-     * @var bool If enabled, logger use original timestamp from buffer
-     * @since 1.1.0
-     */
-    public $addTimestampToContext = false;
-
-    /**
      * @var array
      */
-    private $_levels = self::LEVELS;
+    private $_levels = [];
+
+    public function __construct($config = [])
+    {
+        $this->_levels = $this->_levelMap;
+        parent::__construct($config);
+    }
 
     /**
      * @return LoggerInterface
@@ -98,7 +104,7 @@ class PsrTarget extends Target implements LoggerAwareInterface
                 }
             }
 
-            $this->getLogger()->log(self::LEVELS[$level], $text, $context);
+            $this->getLogger()->log($this->_levelMap[$level], $text, $context);
         }
     }
 
