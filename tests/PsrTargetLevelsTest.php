@@ -296,4 +296,30 @@ class PsrTargetLevelsTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('yii\base\InvalidConfigException');
         new PsrTarget(['levels' => ['not existing level']]);
     }
+
+    public function testContextMessageNotFiltered()
+    {
+        $psrLogger = new PsrArrayLogger();
+        $logger = new Logger();
+        new Dispatcher([
+            'logger' => $logger,
+            'targets' => [
+                'psr' => [
+                    'class' => 'samdark\log\PsrTarget',
+                    'logger' => $psrLogger,
+                    'levels' => [
+                        'debug', LogLevel::EMERGENCY, Logger::LEVEL_WARNING,
+                    ],
+                ]
+            ]
+        ]);
+
+        $logger->log('test message', Logger::LEVEL_WARNING);
+        $logger->flush(true);
+
+        $contextMessage = isset($psrLogger->logs[1]) ? $psrLogger->logs[1] : null;
+
+        $this->assertNotNull($contextMessage);
+        $this->assertEquals(LogLevel::INFO, $contextMessage['level']);
+    }
 }
