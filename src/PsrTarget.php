@@ -25,6 +25,11 @@ class PsrTarget extends Target implements LoggerAwareInterface
      */
     public $addTimestampToContext = false;
 
+    /**
+     * @var bool If enabled, exception's trace will extract into `trace` property
+     */
+    public $extractExceptionTrace = false;
+
     private $_levelMap = [
         Logger::LEVEL_ERROR => LogLevel::ERROR,
         Logger::LEVEL_WARNING => LogLevel::WARNING,
@@ -98,7 +103,12 @@ class PsrTarget extends Target implements LoggerAwareInterface
                 // exceptions may not be serializable if in the call stack somewhere is a Closure
                 if ($text instanceof \Throwable || $text instanceof \Exception) {
                     $context['exception'] = $text;
-                    $text = (string)$text;
+                    if ($this->extractExceptionTrace) {
+                        $context['trace'] = explode(PHP_EOL, $text->getTraceAsString());
+                        $text = $text->getMessage();
+                    } else {
+                        $text = (string)$text;
+                    }
                 } else {
                     $text = VarDumper::export($text);
                 }
