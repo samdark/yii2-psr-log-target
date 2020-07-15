@@ -1,10 +1,11 @@
 <?php
 
-
 namespace samdark\log;
 
 /**
- * Class PsrMessage
+ * Data transfer object implementation for advanced PSR3 message and context handling
+ *
+ * @author Maksim Rodikov <maxrodikov@gmail.com>
  * @package samdark\log
  */
 final class PsrMessage
