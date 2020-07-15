@@ -38,4 +38,14 @@ final class PsrMessage
         return $this->context;
     }
 
+    /**
+     * PSR3 compatibility
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getMessage();
+    }
+
 }
