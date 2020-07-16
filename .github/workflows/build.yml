@@ -73,7 +73,7 @@ jobs:
             php${{ matrix.php-version }}-composer-
 
       - name: Install dependencies
-        run: composer config -g repo.packagist composer https://packagist.org && composer update --prefer-dist --no-interaction --no-progress --optimize-autoloader
+        run: composer config disable-tls true && composer update --prefer-dist --no-interaction --no-progress --optimize-autoloader
 
       - name: Run tests with phpunit and coverage on Linux
         if: matrix.os == 'ubuntu-latest' && matrix.php-version == '7.1'
