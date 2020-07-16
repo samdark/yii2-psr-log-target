@@ -2,9 +2,12 @@
 
 Allows you to process logs using any PSR-3 compatible logger such as [Monolog](https://github.com/Seldaek/monolog).
 
-<a href="https://travis-ci.org/samdark/yii2-psr-log-target">
-    <img src="https://travis-ci.org/samdark/yii2-psr-log-target.svg" />
-</a>
+
+[![Latest Stable Version](https://poser.pugx.org/samdark/yii2-psr-log-target/v/stable.png)](https://packagist.org/packages/samdark/yii2-psr-log-target)
+[![Total Downloads](https://poser.pugx.org/samdark/yii2-psr-log-target/downloads.png)](https://packagist.org/packages/samdark/yii2-psr-log-target)
+[![Build Status](https://github.com/samdark/yii2-psr-log-target/workflows/build/badge.svg)](https://github.com/samdark/yii2-psr-log-target/actions?query=workflow%3Abuild)
+[![Code Coverage](https://scrutinizer-ci.com/g/samdark/yii2-psr-log-target/badges/coverage.png?s=31d80f1036099e9d6a3e4d7738f6b000b3c3d10e)](https://scrutinizer-ci.com/g/samdark/yii2-psr-log-target)
+[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/samdark/yii2-psr-log-target/badges/quality-score.png?s=b1074a1ff6d0b214d54fa5ab7abbb90fc092471d)](https://scrutinizer-ci.com/g/samdark/yii2-psr-log-target/)
 
 ## Installation
 
