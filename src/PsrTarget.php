@@ -109,6 +109,9 @@ class PsrTarget extends Target implements LoggerAwareInterface
                     } else {
                         $text = (string)$text;
                     }
+                } elseif ($text instanceof PsrMessage) {
+                    $context = array_merge($text->getContext(), $context); // Will not replace standard context keys
+                    $text = $text->getMessage();
                 } else {
                     $text = VarDumper::export($text);
                 }
