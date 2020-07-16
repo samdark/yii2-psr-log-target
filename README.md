@@ -83,6 +83,37 @@ $psrLogger->pushProcessor(function($record) {
 });
 ```
 
+You can use PsrMessage instead of regular string messages to add custom context.
+
+Standard usage:
+
+```php
+Yii::error(new \samdark\log\PsrMessage("Critical message", [
+    'custom' => 'context',
+    'key' => 'value',
+]));
+```
+
+Usage with PSR logger Levels:
+
+```php
+Yii::getLogger()->log(new \samdark\log\PsrMessage("Critical message", [
+    'important' => 'context'
+]), Psr\Log\LogLevel::CRITICAL);
+```
+
+Usage with PSR-3 log message processing:
+```php
+$psrLogger = new \Monolog\Logger('my_logger');
+$psrLogger->pushProcessor(new \Monolog\Processor\PsrLogMessageProcessor());
+```
+
+```php
+Yii::debug(new \samdark\log\PsrMessage("Greetings from {fruit}", [
+    'fruit' => 'banana'
+]));
+```
+
 ## Running tests
 
 In order to run tests perform the following commands:
