@@ -80,19 +80,19 @@ jobs:
         run: composer update --prefer-dist --no-interaction --no-progress --optimize-autoloader
 
       - name: Run tests with phpunit and coverage on Linux
-        if: matrix.os == 'ubuntu-latest' && matrix.php-version == 7.1
+        if: matrix.os == 'ubuntu-latest' && matrix.php-version == '7.1'
         run: vendor/bin/phpunit --coverage-clover=coverage.clover
 
       - name: Run tests with phpunit and without coverage on Linux
-        if: matrix.os == 'ubuntu-latest' && matrix.php-version != 7.1
-        run: vendor/bin/phpunit --coverage-clover=coverage.clover
+        if: matrix.os == 'ubuntu-latest' && matrix.php-version != '7.1'
+        run: vendor/bin/phpunit
 
       - name: Run tests with phpunit without coverage on Windows
         if: matrix.os == 'windows-latest'
         run: vendor/bin/phpunit
 
       - name: Upload code coverage scrutinizer
-        if: matrix.os == 'ubuntu-latest' && matrix.php-version == 7.1
+        if: matrix.os == 'ubuntu-latest' && matrix.php-version == '7.1'
         run: |
           wget https://scrutinizer-ci.com/ocular.phar
           php ocular.phar code-coverage:upload --format=php-clover coverage.clover
