@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<phpunit bootstrap="./tests/bootstrap.php"
-		colors="true"
-		convertErrorsToExceptions="true"
-		convertNoticesToExceptions="true"
-		convertWarningsToExceptions="true"
-		stopOnFailure="false">
-		<testsuites>
-			<testsuite name="Test Suite">
-				<directory>./tests</directory>
-			</testsuite>
-		</testsuites>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="./tests/bootstrap.php" colors="true"
+         stopOnFailure="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.4/phpunit.xsd">
+    <testsuites>
+        <testsuite name="Test Suite">
+            <directory>./tests</directory>
+        </testsuite>
+    </testsuites>
 </phpunit>

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace samdark\log\tests;
 
 use Psr\Log\AbstractLogger;
@@ -9,12 +11,10 @@ use Psr\Log\AbstractLogger;
  */
 class PsrArrayLogger extends AbstractLogger
 {
-    public $logs = [];
+    public array $logs = [];
 
-    /**
-     * @inheritdoc
-     */
-    public function log($level, $message, array $context = array())
+
+    public function log($level, \Stringable|string $message, array $context = []): void
     {
         $this->logs[] = [
             'level' => $level,

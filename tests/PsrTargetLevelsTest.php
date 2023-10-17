@@ -1,15 +1,18 @@
 <?php
+declare(strict_types=1);
+
 namespace samdark\log\tests;
 
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LogLevel;
 use samdark\log\PsrTarget;
 use yii\base\InvalidConfigException;
 use yii\log\Dispatcher;
 use yii\log\Logger;
 
-class PsrTargetLevelsTest extends \PHPUnit_Framework_TestCase
+class PsrTargetLevelsTest extends TestCase
 {
-    public function testYiiLevelsDataProvider()
+    public static function yiiLevelsDataProvider(): array
     {
         $context = [
             'category' => 'application',
@@ -66,12 +69,9 @@ class PsrTargetLevelsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testYiiLevelsDataProvider
-     * @param string $message
-     * @param int $level
-     * @param mixed $expected
+     * @dataProvider yiiLevelsDataProvider
      */
-    public function testYiiLevelsFilter($message, $level, $expected)
+    public function testYiiLevelsFilter(string $message, int|string $level, mixed $expected): void
     {
         $psrLogger = new PsrArrayLogger();
         $logger = new Logger();
@@ -79,10 +79,10 @@ class PsrTargetLevelsTest extends \PHPUnit_Framework_TestCase
             'logger' => $logger,
             'targets' => [
                 'psr' => [
-                    'class' => 'samdark\log\PsrTarget',
+                    'class' => PsrTarget::class,
                     'logger' => $psrLogger,
                     'levels' => [
-                        Logger::LEVEL_ERROR, Logger::LEVEL_WARNING, Logger::LEVEL_INFO,  Logger::LEVEL_INFO,
+                        Logger::LEVEL_ERROR, Logger::LEVEL_WARNING, Logger::LEVEL_INFO, Logger::LEVEL_INFO,
                         Logger::LEVEL_TRACE, Logger::LEVEL_PROFILE, Logger::LEVEL_PROFILE_BEGIN, Logger::LEVEL_PROFILE_END
                     ],
                     'logVars' => [],
@@ -93,7 +93,7 @@ class PsrTargetLevelsTest extends \PHPUnit_Framework_TestCase
         $logger->log($message, $level);
         $logger->flush(true);
 
-        $logEntry = isset($psrLogger->logs[0]) ? $psrLogger->logs[0] : null;
+        $logEntry = $psrLogger->logs[0] ?? null;
         if (isset($logEntry['context']['memory'])) {
             $logEntry['context']['memory'] = 42;
         }
@@ -101,7 +101,7 @@ class PsrTargetLevelsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $logEntry);
     }
 
-    public function testPsrLevelsDataProvider()
+    public static function psrLevelsDataProvider(): array
     {
         $context = [
             'category' => 'application',
@@ -175,12 +175,9 @@ class PsrTargetLevelsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testPsrLevelsDataProvider
-     * @param string $message
-     * @param int $level
-     * @param mixed $expected
+     * @dataProvider psrLevelsDataProvider
      */
-    public function testPsrLevelsFilter($message, $level, $expected)
+    public function testPsrLevelsFilter(string $message, int|string $level, mixed $expected): void
     {
         $psrLogger = new PsrArrayLogger();
         $logger = new Logger();
@@ -188,7 +185,7 @@ class PsrTargetLevelsTest extends \PHPUnit_Framework_TestCase
             'logger' => $logger,
             'targets' => [
                 'psr' => [
-                    'class' => 'samdark\log\PsrTarget',
+                    'class' => PsrTarget::class,
                     'logger' => $psrLogger,
                     'levels' => [
                         LogLevel::INFO, LogLevel::ERROR, LogLevel::CRITICAL, LogLevel::ALERT, LogLevel::EMERGENCY,
@@ -202,7 +199,7 @@ class PsrTargetLevelsTest extends \PHPUnit_Framework_TestCase
         $logger->log($message, $level);
         $logger->flush(true);
 
-        $logEntry = isset($psrLogger->logs[0]) ? $psrLogger->logs[0] : null;
+        $logEntry = $psrLogger->logs[0] ?? null;
         if (isset($logEntry['context']['memory'])) {
             $logEntry['context']['memory'] = 42;
         }
@@ -210,7 +207,7 @@ class PsrTargetLevelsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $logEntry);
     }
 
-    public function testMixedLevelsDataProvider()
+    public static function mixedLevelsDataProvider(): array
     {
         $context = [
             'category' => 'application',
@@ -251,12 +248,9 @@ class PsrTargetLevelsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testMixedLevelsDataProvider
-     * @param string $message
-     * @param int $level
-     * @param mixed $expected
+     * @dataProvider mixedLevelsDataProvider
      */
-    public function testMixedLevelsFilter($message, $level, $expected)
+    public function testMixedLevelsFilter(string $message, int|string $level, mixed $expected): void
     {
         $psrLogger = new PsrArrayLogger();
         $logger = new Logger();
@@ -264,7 +258,7 @@ class PsrTargetLevelsTest extends \PHPUnit_Framework_TestCase
             'logger' => $logger,
             'targets' => [
                 'psr' => [
-                    'class' => 'samdark\log\PsrTarget',
+                    'class' => PsrTarget::class,
                     'logger' => $psrLogger,
                     'levels' => [
                         'debug', LogLevel::EMERGENCY, Logger::LEVEL_WARNING,
@@ -277,7 +271,7 @@ class PsrTargetLevelsTest extends \PHPUnit_Framework_TestCase
         $logger->log($message, $level);
         $logger->flush(true);
 
-        $logEntry = isset($psrLogger->logs[0]) ? $psrLogger->logs[0] : null;
+        $logEntry = $psrLogger->logs[0] ?? null;
         if (isset($logEntry['context']['memory'])) {
             $logEntry['context']['memory'] = 42;
         }
@@ -285,19 +279,19 @@ class PsrTargetLevelsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $logEntry);
     }
 
-    public function testIncorrectLevelsTypeFilter()
+    public function testIncorrectLevelsTypeFilter(): void
     {
-        $this->setExpectedException('yii\base\InvalidConfigException');
+        $this->expectException(InvalidConfigException::class);
         new PsrTarget(['levels' => 'string']);
     }
 
-    public function testIncorrectLevelsFilter()
+    public function testIncorrectLevelsFilter(): void
     {
-        $this->setExpectedException('yii\base\InvalidConfigException');
+        $this->expectException(InvalidConfigException::class);
         new PsrTarget(['levels' => ['not existing level']]);
     }
 
-    public function testContextMessageNotFiltered()
+    public function testContextMessageNotFiltered(): void
     {
         $psrLogger = new PsrArrayLogger();
         $logger = new Logger();
@@ -305,7 +299,7 @@ class PsrTargetLevelsTest extends \PHPUnit_Framework_TestCase
             'logger' => $logger,
             'targets' => [
                 'psr' => [
-                    'class' => 'samdark\log\PsrTarget',
+                    'class' => PsrTarget::class,
                     'logger' => $psrLogger,
                     'levels' => [
                         'debug', LogLevel::EMERGENCY, Logger::LEVEL_WARNING,
@@ -317,7 +311,7 @@ class PsrTargetLevelsTest extends \PHPUnit_Framework_TestCase
         $logger->log('test message', Logger::LEVEL_WARNING);
         $logger->flush(true);
 
-        $contextMessage = isset($psrLogger->logs[1]) ? $psrLogger->logs[1] : null;
+        $contextMessage = $psrLogger->logs[1] ?? null;
 
         $this->assertNotNull($contextMessage);
         $this->assertEquals(LogLevel::INFO, $contextMessage['level']);

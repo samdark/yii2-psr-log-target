@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace samdark\log;
 
 use Psr\Log\LoggerAwareInterface;
@@ -23,14 +25,14 @@ class PsrTarget extends Target implements LoggerAwareInterface
      * @var bool If enabled, logger use original timestamp from buffer
      * @since 1.1.0
      */
-    public $addTimestampToContext = false;
+    public bool $addTimestampToContext = false;
 
     /**
      * @var bool If enabled, exception's trace will extract into `trace` property
      */
-    public $extractExceptionTrace = false;
+    public bool $extractExceptionTrace = false;
 
-    private $_levelMap = [
+    private array $_levelMap = [
         Logger::LEVEL_ERROR => LogLevel::ERROR,
         Logger::LEVEL_WARNING => LogLevel::WARNING,
         Logger::LEVEL_INFO => LogLevel::INFO,
@@ -50,10 +52,7 @@ class PsrTarget extends Target implements LoggerAwareInterface
         LogLevel::DEBUG => LogLevel::DEBUG,
     ];
 
-    /**
-     * @var array
-     */
-    private $_levels = [];
+    private array $_levels;
 
     public function __construct($config = [])
     {
@@ -62,10 +61,9 @@ class PsrTarget extends Target implements LoggerAwareInterface
     }
 
     /**
-     * @return LoggerInterface
      * @throws InvalidConfigException
      */
-    public function getLogger()
+    public function getLogger(): LoggerInterface
     {
         if ($this->logger === null) {
             throw new InvalidConfigException('Logger should be configured with Psr\Log\LoggerInterface.');
@@ -76,7 +74,7 @@ class PsrTarget extends Target implements LoggerAwareInterface
     /**
      * @inheritdoc
      */
-    public function export()
+    public function export(): void
     {
         foreach ($this->messages as $message) {
             $level = $message[1];
@@ -101,7 +99,7 @@ class PsrTarget extends Target implements LoggerAwareInterface
             $text = $message[0];
             if (!is_string($text)) {
                 // exceptions may not be serializable if in the call stack somewhere is a Closure
-                if ($text instanceof \Throwable || $text instanceof \Exception) {
+                if ($text instanceof \Throwable) {
                     $context['exception'] = $text;
                     if ($this->extractExceptionTrace) {
                         $context['trace'] = explode(PHP_EOL, $text->getTraceAsString());
@@ -121,15 +119,15 @@ class PsrTarget extends Target implements LoggerAwareInterface
         }
     }
 
-    public static function filterMessages($messages, $levels = [], $categories = [], $except = [])
+    public static function filterMessages($messages, $levels = [], $categories = [], $except = []): array
     {
-        $filterByLevel = function ($message) use ($levels) {
+        $filterByLevel = static function ($message) use ($levels) {
             return isset($levels[$message[1]]);
         };
         return array_filter(parent::filterMessages($messages, 0, $categories, $except), $filterByLevel);
     }
 
-    public function getLevels()
+    public function getLevels(): array
     {
         return $this->_levels;
     }
@@ -155,7 +153,7 @@ class PsrTarget extends Target implements LoggerAwareInterface
      * @param array $levels message levels that this target is interested in.
      * @throws InvalidConfigException if $levels value is not correct.
      */
-    public function setLevels($levels)
+    public function setLevels($levels): void
     {
         static $levelMap = [
             'error' => Logger::LEVEL_ERROR,
@@ -166,23 +164,23 @@ class PsrTarget extends Target implements LoggerAwareInterface
         ];
 
         if (is_array($levels)) {
-            $intrestingLevels = [];
-            
+            $interestingLevels = [];
+
             foreach ($levels as $level) {
                 if (!isset($this->_levels[$level]) && !isset($levelMap[$level])) {
                     throw new InvalidConfigException("Unrecognized level: $level");
                 }
 
                 if (isset($levelMap[$level])) {
-                    $intrestingLevels[$levelMap[$level]] = $this->_levels[$levelMap[$level]];
+                    $interestingLevels[$levelMap[$level]] = $this->_levels[$levelMap[$level]];
                 }
 
                 if (isset($this->_levels[$level])) {
-                    $intrestingLevels[$level] = $this->_levels[$level];
+                    $interestingLevels[$level] = $this->_levels[$level];
                 }
             }
-            
-            $this->_levels = $intrestingLevels;
+
+            $this->_levels = $interestingLevels;
         } else {
             throw new InvalidConfigException("Incorrect $levels value");
         }

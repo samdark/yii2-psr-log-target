@@ -8,44 +8,30 @@ namespace samdark\log;
  * @author Maksim Rodikov <maxrodikov@gmail.com>
  * @package samdark\log
  */
-final class PsrMessage
+final class PsrMessage implements \Stringable
 {
-    /** @var string */
-    private $message;
+    private string $message;
 
-    /** @var array */
-    private $context = [];
+    private array $context;
 
     public function __construct($message, $context = [])
     {
-        $this->message = (string) $message;
+        $this->message = (string)$message;
         $this->context = is_array($context) ? $context : [$context];
     }
 
-    /**
-     * @return string
-     */
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->message;
     }
 
-    /**
-     * @return array
-     */
-    public function getContext()
+    public function getContext(): array
     {
         return $this->context;
     }
 
-    /**
-     * PSR3 compatibility
-     *
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getMessage();
     }
-
 }
