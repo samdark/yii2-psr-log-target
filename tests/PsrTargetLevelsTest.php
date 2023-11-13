@@ -296,7 +296,7 @@ class PsrTargetLevelsTest extends TestCase
 
     public function testIncorrectLevelsTypeFilter()
     {
-        if (version_compare(PHP_VERSION, '5.6', '>')) {
+        if (method_exists(TestCase::class, 'setExpectedException')) {
             $this->setExpectedException('yii\base\InvalidConfigException');
         } else {
             $this->expectException('yii\base\InvalidConfigException');
@@ -307,7 +307,7 @@ class PsrTargetLevelsTest extends TestCase
 
     public function testIncorrectLevelsFilter()
     {
-        if (version_compare(PHP_VERSION, '5.6', '>')) {
+        if (method_exists(TestCase::class, 'setExpectedException')) {
             $this->setExpectedException('yii\base\InvalidConfigException');
         } else {
             $this->expectException('yii\base\InvalidConfigException');
