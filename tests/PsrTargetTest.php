@@ -107,7 +107,7 @@ class PsrTargetTest extends TestCase
      */
     public function testLog($message, $level, $expected)
     {
-        $psrLogger = new PsrArrayLogger();
+        $psrLogger = PsrArrayLoggerFactory::getInstance();
 
         $logger = new Logger();
         new Dispatcher([

@@ -76,7 +76,7 @@ class PsrTargetLevelsTest extends TestCase
      */
     public function testYiiLevelsFilter($message, $level, $expected)
     {
-        $psrLogger = new PsrArrayLogger();
+        $psrLogger = PsrArrayLoggerFactory::getInstance();
         $logger = new Logger();
         new Dispatcher([
             'logger' => $logger,
@@ -188,7 +188,7 @@ class PsrTargetLevelsTest extends TestCase
      */
     public function testPsrLevelsFilter($message, $level, $expected)
     {
-        $psrLogger = new PsrArrayLogger();
+        $psrLogger = PsrArrayLoggerFactory::getInstance();
         $logger = new Logger();
         new Dispatcher([
             'logger' => $logger,
@@ -267,7 +267,7 @@ class PsrTargetLevelsTest extends TestCase
      */
     public function testMixedLevelsFilter($message, $level, $expected)
     {
-        $psrLogger = new PsrArrayLogger();
+        $psrLogger = PsrArrayLoggerFactory::getInstance();
         $logger = new Logger();
         new Dispatcher([
             'logger' => $logger,
@@ -318,7 +318,7 @@ class PsrTargetLevelsTest extends TestCase
 
     public function testContextMessageNotFiltered()
     {
-        $psrLogger = new PsrArrayLogger();
+        $psrLogger = PsrArrayLoggerFactory::getInstance();
         $logger = new Logger();
         new Dispatcher([
             'logger' => $logger,
