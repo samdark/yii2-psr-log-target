@@ -4,10 +4,14 @@ namespace samdark\log\tests;
 use Psr\Log\LogLevel;
 use yii\log\Dispatcher;
 use yii\log\Logger;
+use PHPUnit\Framework\TestCase;
 
-class PsrTargetTest extends \PHPUnit_Framework_TestCase
+class PsrTargetTest extends TestCase
 {
-    public function testLogDataProvider()
+    /**
+     * @doesNotPerformAssertions
+     */
+    public static function testLogDataProvider()
     {
         $context = [
             'category' => 'application',
@@ -103,7 +107,7 @@ class PsrTargetTest extends \PHPUnit_Framework_TestCase
      */
     public function testLog($message, $level, $expected)
     {
-        $psrLogger = new PsrArrayLogger();
+        $psrLogger = PsrArrayLoggerFactory::getInstance();
 
         $logger = new Logger();
         new Dispatcher([
