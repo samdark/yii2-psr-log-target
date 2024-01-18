@@ -1,8 +1,8 @@
 <?php
 namespace samdark\log;
 
+use Closure;
 use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use yii\base\InvalidConfigException;
@@ -17,7 +17,12 @@ use yii\log\Target;
  */
 class PsrTarget extends Target implements LoggerAwareInterface
 {
-    use LoggerAwareTrait;
+    /**
+     * The logger instance.
+     *
+     * @var LoggerInterface|Closure|null
+     */
+    public $logger;
 
     /**
      * @var bool If enabled, logger use original timestamp from buffer
@@ -60,7 +65,17 @@ class PsrTarget extends Target implements LoggerAwareInterface
         $this->_levels = $this->_levelMap;
         parent::__construct($config);
     }
-
+    
+    /**
+     * Sets a logger.
+     *
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+    
     /**
      * @return LoggerInterface
      * @throws InvalidConfigException
@@ -70,6 +85,11 @@ class PsrTarget extends Target implements LoggerAwareInterface
         if ($this->logger === null) {
             throw new InvalidConfigException('Logger should be configured with Psr\Log\LoggerInterface.');
         }
+        if ($this->logger instanceof Closure) {
+            $loggerClosure = $this->logger;
+            $this->logger = $loggerClosure();
+        }
+        
         return $this->logger;
     }
 
